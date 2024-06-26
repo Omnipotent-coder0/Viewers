@@ -9,6 +9,8 @@ import SegmentationGroupSegment from './SegmentationGroupSegment';
 import { useTranslation } from 'react-i18next';
 
 const SegmentationGroupTable = ({
+  array,
+  setArray = ()=>{},
   segmentations = [],
   segmentationConfig,
   disableEditing = false,
@@ -62,13 +64,37 @@ const SegmentationGroupTable = ({
     }
 
     setActiveSegmentationId(activeSegmentationIdToSet);
+    console.log("segmentations : ", segmentations)
+
+    if(array.length !== segmentations.length){
+      const n = segmentations.length;
+    }
+
+
+
   }, [segmentations]);
 
   const activeSegmentation = segmentations?.find(
     segmentation => segmentation.id === activeSegmentationId
   );
+  const n = activeSegmentation?.segments.length;
+  if(n){
+    activeSegmentation.segments[n-1].label = localStorage.getItem("segmentationName");
+    activeSegmentation.segments[n-1].color = hexToRgb(localStorage.getItem("color"));
+    activeSegmentation.segments[n-1].sample = localStorage.getItem("sampleLabel");
+
+  }
   const { t } = useTranslation('SegmentationTable');
 
+  function hexToRgb(hex) {
+    hex = hex.replace('#', '');
+    const r = parseInt(hex.substring(0, 2), 16);
+    const g = parseInt(hex.substring(2, 4), 16);
+    const b = parseInt(hex.substring(4, 6), 16);
+
+    // Return array with the RGB values
+    return [r, g, b];
+  }
   return (
     <div className="flex min-h-0 flex-col bg-black text-[13px] font-[300]">
       <PanelSection
@@ -125,6 +151,11 @@ const SegmentationGroupTable = ({
               )}
             </div>
           )}
+
+
+
+
+
         </div>
         {activeSegmentation && (
           <div className="ohif-scrollbar flex h-fit min-h-0 flex-1 flex-col overflow-auto bg-black">
@@ -133,13 +164,14 @@ const SegmentationGroupTable = ({
                 return null;
               }
 
-              const { segmentIndex, color, label, isVisible, isLocked } = segment;
+              const { segmentIndex, color, label, isVisible, isLocked,sample } = segment;
               return (
                 <div
                   className="mb-[1px]"
                   key={segmentIndex}
                 >
                   <SegmentationGroupSegment
+                    sample = {sample}
                     segmentationId={activeSegmentationId}
                     segmentIndex={segmentIndex}
                     label={label}

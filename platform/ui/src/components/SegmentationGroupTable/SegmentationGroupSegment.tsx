@@ -4,7 +4,9 @@ import classnames from 'classnames';
 
 import Icon from '../Icon';
 
+
 const SegmentItem = ({
+  sample,
   segmentIndex,
   segmentationId,
   label,
@@ -21,6 +23,7 @@ const SegmentItem = ({
   onToggleVisibility,
   onToggleLocked,
   displayText,
+
 }) => {
   const [isNumberBoxHovering, setIsNumberBoxHovering] = useState(false);
 
@@ -41,6 +44,11 @@ const SegmentItem = ({
       tabIndex={0}
       data-cy={'segment-item'}
     >
+
+
+
+
+
       <div className="flex min-h-[28px]">
         <div
           className={classnames('group/number grid w-[28px] place-items-center', {
@@ -76,23 +84,28 @@ const SegmentItem = ({
             width: 'calc(100% - 28px)',
           }}
         >
-          <div className="bg-primary-dark flex h-full flex-grow items-center">
-            <div className="pl-2 pr-1.5">
-              <div
-                className={classnames('h-[8px] w-[8px] grow-0 rounded-full', {
-                  'hover:cursor-pointer hover:opacity-60': !disableEditing,
-                })}
-                style={{ backgroundColor: cssColor }}
-                onClick={e => {
-                  if (disableEditing) {
-                    return;
-                  }
-                  e.stopPropagation();
-                  onColor(segmentationId, segmentIndex);
-                }}
-              />
+          <div className="flex flex-col">
+            <div className="bg-primary-dark flex h-full flex-grow items-center">
+              <div className="pl-2 pr-1.5">
+                <div
+                  className={classnames('h-[8px] w-[8px] grow-0 rounded-full', {
+                    'hover:cursor-pointer hover:opacity-60': !disableEditing,
+                  })}
+                  style={{ backgroundColor: cssColor }}
+                  onClick={e => {
+                    if (disableEditing) {
+                      return;
+                    }
+                    e.stopPropagation();
+                    onColor(segmentationId, segmentIndex);
+                  }}
+                  />
+              </div>
+              <div className="flex items-center py-1 hover:cursor-pointer">{label}</div>
             </div>
-            <div className="flex items-center py-1 hover:cursor-pointer">{label}</div>
+            <div className="flex gap-x-4">
+              {sample}
+            </div>
           </div>
           <div
             className={classnames(
@@ -152,6 +165,8 @@ const SegmentItem = ({
             </div>
           </div>
         </div>
+        {/* <br /><br />
+        <h2>hhiiii</h2> */}
       </div>
       {Array.isArray(displayText) ? (
         <div className="flex flex-col bg-black py-[5px] pl-[43px]">

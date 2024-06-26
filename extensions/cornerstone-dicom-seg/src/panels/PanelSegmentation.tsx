@@ -28,6 +28,8 @@ export default function PanelSegmentation({
 
   const { t } = useTranslation('PanelSegmentation');
 
+  const [array, setArray] = useState([]);
+
   const [selectedSegmentationId, setSelectedSegmentationId] = useState(null);
   const [addSegmentationClassName, setAddSegmentationClassName] = useState('');
   const [segmentationConfiguration, setSegmentationConfiguration] = useState(
@@ -61,6 +63,9 @@ export default function PanelSegmentation({
 
   // temporary measure to not allow add segmentation when the selected viewport
   // is stack viewport
+
+
+
   useEffect(() => {
     const handleActiveViewportChange = viewportId => {
       const displaySetUIDs = viewportGridService.getDisplaySetsUIDsForViewport(
@@ -320,6 +325,8 @@ export default function PanelSegmentation({
 
   return (
     <SegmentationGroupTableComponent
+      array = {array}
+      setArray = {setArray}
       title={t('Segmentations')}
       segmentations={segmentations}
       disableEditing={configuration.disableEditing}
